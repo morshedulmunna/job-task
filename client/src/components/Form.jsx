@@ -7,10 +7,12 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Form = () => {
   const [optionsData, setOptionsData] = useState([]);
   const [showResult, setShowResult] = useState(false);
+  const [submitID, setSubmitID] = useState("");
   const {
     register,
     formState: { errors },
@@ -22,10 +24,9 @@ const Form = () => {
     axios
       .post("http://localhost:4000/sectors", data)
       .then((response) => {
-        console.log(response.data.success);
-
         if (response.data) {
           setShowResult(true);
+          setSubmitID(response.data.result.insertedId);
           return toast.success("Successfully Submitted!!");
         }
       })
@@ -48,6 +49,22 @@ const Form = () => {
     }
     getItems();
   }, []);
+
+  // Get Data Specifiq Id
+
+  // useEffect(() => {
+  //   async function getItem() {
+  //     try {
+  //       const { data: item } = await axios.get(
+  //         `http://localhost:4000/submitedData/${submitID}`
+  //       );
+  //       console.log(item);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   getItem();
+  // }, [submitID]);
 
   return (
     <React.Fragment>
@@ -87,18 +104,12 @@ const Form = () => {
               id="sectorType"
               className="w-full rounded-sm bg-white border border-gray-300 py-1 outline-none cursor-pointer px-1 "
             >
-              {/* {optionsData.map((item) => (
-                <optgroup key={item._id} label={item.label}>
-                  {item.value.map((options) => (
-                    <option value=""> {typeof options.option} </option>
-                  ))}
-                </optgroup>
-              ))} */}
-
               <option value="">Please select an sector</option>
-              <option value="Demo1">Demo1</option>
-              <option value="Demo2">Demo2</option>
-              <option value="Demo3">Demo3</option>
+              {optionsData[0]?.value?.map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
             <div className="absolute right-2 top-2">
               <MdKeyboardArrowDown />
@@ -142,8 +153,14 @@ const Form = () => {
           className="w-full mt-4 bg-blue-500 text-white cursor-pointer hover:bg-blue-400 duration-300 ease-in-out rounded-sm py-1"
           type="submit"
         />
-        {showResult && <button>Show Result</button>}
       </form>
+      {showResult && (
+        <Link to="/result-show">
+          <button className="bg-orange-500 mt-6 px-2 py-1 rounded-sm text-white">
+            Show Result
+          </button>
+        </Link>
+      )}
     </React.Fragment>
   );
 };
