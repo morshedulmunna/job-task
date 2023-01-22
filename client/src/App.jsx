@@ -9,7 +9,7 @@ const App = () => {
     <React.Fragment>
       <Routes>
         <Route path="/" element={<SubmitForm />} />
-        <Route path="/result-show" element={<ResultSHow />} />
+        <Route path="/result-show/:id" element={<ResultSHow />} />
       </Routes>
 
       <Toaster position="top-right" reverseOrder={false} />

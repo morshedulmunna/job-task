@@ -13,6 +13,7 @@ const Form = () => {
   const [optionsData, setOptionsData] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [submitID, setSubmitID] = useState("");
+
   const {
     register,
     formState: { errors },
@@ -24,6 +25,8 @@ const Form = () => {
     axios
       .post("http://localhost:4000/sectors", data)
       .then((response) => {
+        console.log(response.data.result.insertedId);
+
         if (response.data) {
           setShowResult(true);
           setSubmitID(response.data.result.insertedId);
@@ -49,22 +52,6 @@ const Form = () => {
     }
     getItems();
   }, []);
-
-  // Get Data Specifiq Id
-
-  // useEffect(() => {
-  //   async function getItem() {
-  //     try {
-  //       const { data: item } = await axios.get(
-  //         `http://localhost:4000/submitedData/${submitID}`
-  //       );
-  //       console.log(item);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   getItem();
-  // }, [submitID]);
 
   return (
     <React.Fragment>
@@ -155,7 +142,7 @@ const Form = () => {
         />
       </form>
       {showResult && (
-        <Link to="/result-show">
+        <Link to={`/result-show/${submitID}`}>
           <button className="bg-orange-500 mt-6 px-2 py-1 rounded-sm text-white">
             Show Result
           </button>

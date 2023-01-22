@@ -26,7 +26,7 @@ const run = async () => {
 
     // Router
     app.use("/sectors", sectorsRouters);
-    // app.use("/submitedData", submitedData);
+    app.use("/submitedData", submitedData);
     //
   } finally {
   }
