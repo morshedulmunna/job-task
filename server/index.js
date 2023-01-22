@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 // All Route Import
 import sectorsRouters from "./routes/sectors.js";
+import submitedData from "./routes/submitedData.js";
 
 // Require ==========>
 dotenv.config();
@@ -25,6 +26,7 @@ const run = async () => {
 
     // Router
     app.use("/sectors", sectorsRouters);
+    app.use("/submitedData", submitedData);
     //
   } finally {
   }
